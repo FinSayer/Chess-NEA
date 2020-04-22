@@ -31,11 +31,6 @@ class Board:
         for i in range(self.cols):
             self.grid[6][i] = Pawn(1, [1, i])
 
-    def move(self):
-        x_pos = int(input("x >> "))
-        y_pos = int(input("y >> "))
-        self.grid[x_pos][y_pos].move()
-
     def __str__(self):
         for j in self.grid:
             for e, i in enumerate(j):
@@ -44,12 +39,3 @@ class Board:
                 else:
                     print(str(i), end=" │ ")
         return ""
-
-B = Board()
-
-B.start()
-
-
-while 1:
-    print(B)
-    B.move()
