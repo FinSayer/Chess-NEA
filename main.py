@@ -38,6 +38,16 @@ def update(surface, grid):
                 sys.exit()
         draw_board(surface, grid)
         pygame.display.update()
+        x_position_start = int(input("x >"))
+        y_position_start = int(input("y >"))
+        piece = B.grid[y_position_start][x_position_start]
+        x_position_end = int(input("x >"))
+        y_position_end = int(input("y >"))
+        if piece.checkMove(x_position_start, y_position_start, x_position_end, y_position_end) == True:
+            B.grid[y_position_start][x_position_start] = Empty(0, [y_position_start, x_position_start])
+            B.grid[y_position_end][x_position_end] = piece
+        else:
+            print("Invalid")
 
 pygame.init()
 surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
