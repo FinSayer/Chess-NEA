@@ -1,16 +1,58 @@
+import pygame
+import sys
+
 from board import *
 from pieces import *
 
 B = Board()
+B.board_init()
+SCREEN_WIDTH, SCREEN_HEIGHT = 600, 600
+BLOCK_LENGTH = 75
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
 
-B.start()
+def draw_piece(piece):
+    if piece == "B":
+        return pygame.transform.scale(pygame.image.load('castle.png'), (BLOCK_LENGTH, BLOCK_LENGTH))
+
+def draw_board(surface, grid):
+    for je, j in enumerate(grid):
+        for ie, i in enumerate(j):
+            myrect = pygame.Rect(ie*BLOCK_LENGTH, je*BLOCK_LENGTH, BLOCK_LENGTH, BLOCK_LENGTH)
+            if (je + ie) % 2 == 1:
+                pygame.draw.rect(surface, BLACK, myrect)
+            elif (je + ie) % 2 == 0:
+                pygame.draw.rect(surface, WHITE, myrect)
+            piece = str(B.grid[je][ie])
+            if piece != " ":
+                pygame.Surface.blit(surface, draw_piece(piece), (ie*BLOCK_LENGTH, je*BLOCK_LENGTH))
+
+def update(surface, grid):
+    while 1:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                pygame.quit()
+                sys.exit()
+        draw_board(surface, grid)
+        pygame.display.update()
+
+pygame.init()
+surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+update(surface, B.grid)
+
 
 while 1:
     print(B)
-    xpos_start = int(input("x >"))
-    ypos_start = int(input("y >"))
-    piece = B.grid[ypos_start][xpos_start]
-    B.grid[ypos_start][xpos_start] = Empty(0, [ypos_start][xpos_start])
-    xpos_end = int(input("x >"))
-    ypos_end = int(input("y >"))
-    B.grid[ypos_end][xpos_end] = piece
+    x_position_start = int(input("x >"))
+    y_position_start = int(input("y >"))
+    piece = B.grid[y_position_start][x_position_start]
+    x_position_end = int(input("x >"))
+    y_position_end = int(input("y >"))
+    if piece.checkMove(x_position_start, y_position_start, x_position_end, y_position_end) == True:
+        B.grid[y_position_start][x_position_start] = Empty(0, [y_position_start, x_position_start])
+        B.grid[y_position_end][x_position_end] = piece
+    else:
+        print("Invalid")
