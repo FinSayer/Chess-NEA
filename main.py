@@ -11,7 +11,8 @@ BLOCK_LENGTH = 75
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-def draw_piece(piece):
+def draw_piece(piece, ypos, xpos):
+    # at the moment im just checking against the string value of the class but when I check B.grid[je][ie] == Bishop(-1, [je, ie]) it returns false.
     if piece == "B":
         return pygame.transform.scale(pygame.image.load('castle.png'), (BLOCK_LENGTH, BLOCK_LENGTH))
 
@@ -25,7 +26,7 @@ def draw_board(surface, grid):
                 pygame.draw.rect(surface, WHITE, myrect)
             piece = str(B.grid[je][ie])
             if piece != " ":
-                pygame.Surface.blit(surface, draw_piece(piece), (ie*BLOCK_LENGTH, je*BLOCK_LENGTH))
+                pygame.Surface.blit(surface, draw_piece(piece, je, ie), (ie*BLOCK_LENGTH, je*BLOCK_LENGTH))
 
 def update(surface, grid):
     while 1:
@@ -66,3 +67,6 @@ while 1:
         B.grid[y_position_end][x_position_end] = piece
     else:
         print("Invalid")
+
+
+#https://www.geeksforgeeks.org/type-isinstance-python/
